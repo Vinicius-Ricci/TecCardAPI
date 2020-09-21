@@ -10,7 +10,7 @@ namespace TecCardAPI.InfraEstrutura.BancoDados
     public class BancoContexto : DbContext
     {
 
-        public DbSet<Aluno> Aluno { get; set; }
+        public DbSet<Usuario> Usuario { get; set; }
         public DbSet<Curso> Curso { get; set; }
         public DbSet<Acesso> Acesso { get; set; }
         public DbSet<Status> Status { get; set; }
@@ -34,16 +34,18 @@ namespace TecCardAPI.InfraEstrutura.BancoDados
 
             });
 
-            modelBuilder.Entity<Aluno>(a =>
+            modelBuilder.Entity<Usuario>(a =>
             {
                 a.HasKey(e => e.RM);
                 a.Property(e => e.Nome).HasMaxLength(100).IsRequired();
                 a.Property(e => e.Email).HasMaxLength(100).IsRequired();
+                a.Property(e => e.Tipo).HasMaxLength(100).IsRequired();
                 a.Property(e => e.Senha).HasMaxLength(128).IsRequired();
                 a.Property(e => e.QrCode).HasColumnType("longtext").IsRequired();
                 a.Property(e => e.Foto).HasColumnType("longtext");
-                a.HasOne(e => e.Curso).WithMany(c => c.Alunos).IsRequired();
+                a.HasOne(e => e.Curso).WithMany(c => c.Usuarios).IsRequired();
                 a.HasIndex(e => e.Email).IsUnique();
+
             });
 
             modelBuilder.Entity<Acesso>(a => {
@@ -53,7 +55,7 @@ namespace TecCardAPI.InfraEstrutura.BancoDados
                 a.Property(e => e.Data).HasDefaultValue(DateTime.Now);
                 a.Property(e => e.Status).HasMaxLength(45).IsRequired();
                 a.Property(e => e.Resultado).HasMaxLength(45).IsRequired();
-                a.HasOne(e => e.Aluno).WithMany(r => r.Acessos).IsRequired();
+                a.HasOne(e => e.Usuario).WithMany(r => r.Acessos).IsRequired();
 
 
             });
@@ -65,7 +67,7 @@ namespace TecCardAPI.InfraEstrutura.BancoDados
                 s.Property(e => e.Descricao).HasMaxLength(45).IsRequired();
                 s.Property(e => e.DataInicio).HasDefaultValue(DateTime.Now).IsRequired();
                 s.Property(e => e.DataFim);
-                s.HasOne(e => e.Aluno).WithMany(r => r.Situacoes).IsRequired();
+                s.HasOne(e => e.Usuario).WithMany(r => r.Situacoes).IsRequired();
 
 
             });

@@ -13,38 +13,46 @@ namespace TecCardAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AlunoController : ControllerBase
+    public class UsuarioController : ControllerBase
     {
         private BancoContexto _bancoContexto;
-        public AlunoController(BancoContexto bancoContexto)
+        public UsuarioController(BancoContexto bancoContexto)
         {
             _bancoContexto = bancoContexto;
             
 
         }
 
-        [HttpPost]
-        public Aluno Salvar(NovoAluno request)
+        [HttpGet]
+        public string Ping()
         {
-            var aluno = new Aluno
+            return "pong";
+        }
+
+        [HttpPost]
+        public Usuario Salvar(NovoAluno request)
+        {
+            var usuario = new Usuario
             {
                 Email = request.Email,
                 Nome = request.Nome,
                 Senha = request.Senha.MakeHash(),
                 RM = request.RM,
                 QrCode = "fdsf",
-                Curso = _bancoContexto.Curso.ToList().First(c => c.Codigo == request.Curso)
+                Curso = _bancoContexto.Curso.ToList().First(c => c.Codigo == request.Curso),
+                Tipo = "ALUNO"
+
             };
-            _bancoContexto.Aluno.Add(aluno);
+            _bancoContexto.Usuario.Add(usuario);
             _bancoContexto.SaveChanges();
-            return aluno;
+            return usuario;
         }
         
         [HttpPost("login")]
         public IActionResult Login(Credencial credencial)
         {
-            var aluno =_bancoContexto.Aluno.ToList().Find(a => a.Email == credencial.Email && a.Senha == credencial.Senha.MakeHash());
-            if (aluno == default(Aluno))
+            var aluno =_bancoContexto.Usuario.ToList().Find(a => a.Email == credencial.Email && a.Senha == credencial.Senha.MakeHash());
+            if (aluno == default(Usuario))
             {
                 return BadRequest(new { message = "Credenciais Invalidas" });
             }
@@ -52,7 +60,8 @@ namespace TecCardAPI.Controllers
             {
                 Email = aluno.Email,
                 Nome = aluno.Nome,
-                Token = aluno.Email.MakeHash()
+                Token = aluno.Email.MakeHash(),
+                Tipo = aluno.Tipo
             });
         }
     }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TecCardAPI.Aplicacao.Entidades
 {
-    public class Aluno
+    public class Usuario
     {
         public int RM { get; set; }
         public string Nome { get; set; }
@@ -16,5 +16,6 @@ namespace TecCardAPI.Aplicacao.Entidades
         public virtual Curso Curso { get; set; }
         public ICollection<Acesso> Acessos { get; set; }
         public ICollection<Status> Situacoes { get; set; }
+        public string Tipo { get; set; }
     }
 }

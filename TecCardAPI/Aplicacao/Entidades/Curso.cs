@@ -9,6 +9,6 @@ namespace TecCardAPI.Aplicacao.Entidades
     {
         public int Codigo { get; set; }
         public string Nome { get; set; }
-        public ICollection<Aluno> Alunos { get; set; }
+        public ICollection<Usuario> Usuarios { get; set; }
     }
 }

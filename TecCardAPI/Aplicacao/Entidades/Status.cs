@@ -11,7 +11,7 @@ namespace TecCardAPI.Aplicacao.Entidades
         public string Descricao { get; set; }
         public DateTime DataInicio { get; set; }
         public DateTime DataFim { get; set; }
-        public virtual Aluno Aluno { get; set; }
+        public virtual Usuario Usuario { get; set; }
 
     }
 }
