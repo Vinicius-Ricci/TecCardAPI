@@ -43,7 +43,8 @@ namespace TecCardAPI.InfraEstrutura.BancoDados
                 a.Property(e => e.Senha).HasMaxLength(128).IsRequired();
                 a.Property(e => e.QrCode).HasColumnType("longtext").IsRequired();
                 a.Property(e => e.Foto).HasColumnType("longtext");
-                a.HasOne(e => e.Curso).WithMany(c => c.Usuarios).IsRequired();
+                a.Property(e => e.CursoId).HasColumnName("CursoCodigo");
+                a.HasOne(e => e.Curso).WithMany(c => c.Usuarios).HasForeignKey(e => e.CursoId).IsRequired();
                 a.HasIndex(e => e.Email).IsUnique();
 
             });

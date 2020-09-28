@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TecCardAPI.Aplicacao.Entidades;
 using TecCardAPI.InfraEstrutura.BancoDados;
 using TecCardAPI.Util;
@@ -63,6 +64,16 @@ namespace TecCardAPI.Controllers
                 Token = aluno.Email.MakeHash(),
                 Tipo = aluno.Tipo
             });
+        }
+
+        [HttpGet("list")]
+        public IActionResult ListUsuario()
+        {
+            var alunos = _bancoContexto.Usuario
+                .Include(u => u.Curso)
+                .ToList()
+                .Select(a => new { Nome = a.Nome, Email = a.Email, Tipo = a.Tipo, Curso = a.Curso.Nome, RM = a.RM });
+            return Ok(alunos);
         }
     }
 }

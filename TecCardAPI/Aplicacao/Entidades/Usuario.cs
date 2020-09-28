@@ -13,6 +13,7 @@ namespace TecCardAPI.Aplicacao.Entidades
         public string Senha { get; set; }
         public string Foto { get; set; }
         public string QrCode { get; set; }
+        public int CursoId { get; set; }
         public virtual Curso Curso { get; set; }
         public ICollection<Acesso> Acessos { get; set; }
         public ICollection<Status> Situacoes { get; set; }
