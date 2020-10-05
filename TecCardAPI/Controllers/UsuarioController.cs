@@ -62,7 +62,8 @@ namespace TecCardAPI.Controllers
                 Email = aluno.Email,
                 Nome = aluno.Nome,
                 Token = aluno.Email.MakeHash(),
-                Tipo = aluno.Tipo
+                Tipo = aluno.Tipo,
+                RM = aluno.RM
             });
         }
 
