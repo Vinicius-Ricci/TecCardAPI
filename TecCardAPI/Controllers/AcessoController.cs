@@ -41,6 +41,32 @@ namespace TecCardAPI.Controllers
             {
               Descricao = status.Descricao
             });
+
+            
+        }
+
+        [HttpPost("grant")]
+        public IActionResult Grant(GrantViewModel vm){
+            var aluno = _bancoContexto.Usuario.FirstOrDefault(u => u.RM == vm.RM);
+
+            if(aluno == default(Usuario)){
+                return NotFound(new { message = "Aluno não encontrado" });
+            }
+            _bancoContexto.Status.ToList().FindAll(s => s.Usuario == aluno).ForEach(s => {
+                if(s.DataFim > vm.DataInicio){
+                    s.DataFim = vm.DataInicio.AddDays(-1);
+                }
+            });
+            
+            var situacao = new Status();
+            situacao.DataFim = vm.DataFim;
+            situacao.DataInicio = vm.DataInicio;
+            situacao.Descricao = vm.Descricao;
+            situacao.Usuario = aluno;
+            _bancoContexto.Status.Add(situacao);
+            _bancoContexto.SaveChanges();
+
+            return Ok(new { message = "Status modificado com sucesso!"});
         }
     }
 }
