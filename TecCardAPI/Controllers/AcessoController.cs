@@ -32,7 +32,7 @@ namespace TecCardAPI.Controllers
             {
                 return NotFound(new { message = "Usuario não encontrado!" });
             }
-            var status = aluno.Situacoes.FirstOrDefault(s => s.DataInicio < DateTime.Now && s.DataFim > DateTime.Now);
+            var status = aluno.Situacoes.LastOrDefault(s => s.DataInicio.Date <= DateTime.Now.Date && s.DataFim.Date >= DateTime.Now.Date);
             if (status == default(Status))
             {
                 return NotFound(new { message = "Permissão de saida não configurada!" });
