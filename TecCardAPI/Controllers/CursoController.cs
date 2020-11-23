@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TecCardAPI.Aplicacao.Entidades;
 using TecCardAPI.InfraEstrutura.BancoDados;
+using TecCardAPI.ViewModel;
 
 namespace TecCardAPI.Controllers
 {
@@ -29,6 +30,12 @@ namespace TecCardAPI.Controllers
             _bancoContexto.Curso.Add(curso);
             _bancoContexto.SaveChanges();
             return curso;
+        }
+
+        [HttpGet]
+        public IEnumerable<CursoViewModel> Listar()
+        {
+            return _bancoContexto.Curso.ToList().Select(c => new CursoViewModel(){Id = c.Codigo, Name = c.Nome});
         }
     }
 }
